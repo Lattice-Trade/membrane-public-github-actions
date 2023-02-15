@@ -23,20 +23,20 @@ runs:
   using: "composite"
   steps:
     - name: Setup node
-      uses: Lattice-Trade/membrane-github-template-actions/composite-actions/yarn/setup-node.v1@main
+      uses: Lattice-Trade/membrane-public-github-actions/composite-actions/yarn/setup-node.v1@main
       with:
         NODE_VERSION: ${{ inputs.NODE_VERSION }}
         NPM_REGISTRY: ${{ inputs.NPM_REGISTRY }}
         NPM_SCOPE: ${{ inputs.NPM_SCOPE }}
     - name: Download and unzip dependencies artifact
-      uses: Lattice-Trade/membrane-github-template-actions/composite-actions/git/download-artifact.v1@main
+      uses: Lattice-Trade/membrane-public-github-actions/composite-actions/git/download-artifact.v1@main
     - name: Build code
       run: yarn run build
       shell: bash
     - name: Set the right publish token (PAT or GITHUB_TOKEN)
       if: ${{ inputs.NPM_REGISTRY == 'npm.pkg.github.com' }}
       id: token
-      uses: Lattice-Trade/membrane-github-template-actions/composite-actions/npm/set-publish-token.v1@main
+      uses: Lattice-Trade/membrane-public-github-actions/composite-actions/npm/set-publish-token.v1@main
       with:
         USE_PAT: ${{ inputs.USE_PAT }}
         NPM_TOKEN_PUBLISH: ${{ env.NPM_TOKEN_PUBLISH }}

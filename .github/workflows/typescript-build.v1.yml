@@ -56,17 +56,17 @@ jobs:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN_RO }}
     steps:
       - name: Setup node
-        uses: Lattice-Trade/membrane-github-template-actions/composite-actions/npm/setup-node.v1@main
+        uses: Lattice-Trade/membrane-public-github-actions/composite-actions/npm/setup-node.v1@main
         with:
           NODE_VERSION: ${{ inputs.NODE_VERSION }}
           NPM_REGISTRY: ${{ inputs.NPM_REGISTRY }}
           NPM_SCOPE: ${{ inputs.NPM_SCOPE }}
           WORKING_DIR: ${{ inputs.WORKING_DIR }}
       - name: Download and unzip dependencies artifact
-        uses: Lattice-Trade/membrane-github-template-actions/composite-actions/git/download-artifact.v1@main
+        uses: Lattice-Trade/membrane-public-github-actions/composite-actions/git/download-artifact.v1@main
       - name: Install protoc
         if: ${{ inputs.USE_PROTOC }}
-        uses: Lattice-Trade/membrane-github-template-actions/composite-actions/protoc/install.v1@main
+        uses: Lattice-Trade/membrane-public-github-actions/composite-actions/protoc/install.v1@main
         with:
           PROTOC_VERSION: ${{ inputs.PROTOC_VERSION }}
       - name: Build protoc and get output
@@ -92,7 +92,7 @@ jobs:
       - name: Set the right publish token (PAT or GITHUB_TOKEN)
         if: ${{ inputs.NPM_REGISTRY == 'npm.pkg.github.com' }}
         id: token
-        uses: Lattice-Trade/membrane-github-template-actions/composite-actions/npm/set-publish-token.v1@main
+        uses: Lattice-Trade/membrane-public-github-actions/composite-actions/npm/set-publish-token.v1@main
         with:
           USE_PAT: ${{ inputs.USE_PAT }}
           NPM_TOKEN_PUBLISH: ${{ secrets.NPM_TOKEN_PUBLISH }}

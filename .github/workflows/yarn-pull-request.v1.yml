@@ -28,7 +28,7 @@ env:
 jobs:
   gitflow-validation:
     if: ${{ inputs.VALIDATE_GITFLOW || ( inputs.GH_BASE_REF != '' && inputs.GH_HEAD_REF != '' ) }}
-    uses: Lattice-Trade/membrane-github-template-actions/.github/workflows/gh-validate-gitflow.v1.yml@main
+    uses: Lattice-Trade/membrane-public-github-actions/.github/workflows/gh-validate-gitflow.v1.yml@main
 
   install:
     needs: gitflow-validation
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Install dependencies
-        uses: Lattice-Trade/membrane-github-template-actions/composite-actions/yarn/install.v1@main
+        uses: Lattice-Trade/membrane-public-github-actions/composite-actions/yarn/install.v1@main
         with:
           NODE_VERSION: ${{ env.NODE_VERSION }}
 
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Install dependencies
-        uses: Lattice-Trade/membrane-github-template-actions/composite-actions/yarn/lint.v1@main
+        uses: Lattice-Trade/membrane-public-github-actions/composite-actions/yarn/lint.v1@main
         with:
           NODE_VERSION: ${{ env.NODE_VERSION }}
 
@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Install dependencies
-        uses: Lattice-Trade/membrane-github-template-actions/composite-actions/yarn/lint.v1@main
+        uses: Lattice-Trade/membrane-public-github-actions/composite-actions/yarn/lint.v1@main
         with:
           NODE_VERSION: ${{ env.NODE_VERSION }}
 
@@ -71,6 +71,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Build application
-        uses: Lattice-Trade/membrane-github-template-actions/composite-actions/yarn/build.v1@main
+        uses: Lattice-Trade/membrane-public-github-actions/composite-actions/yarn/build.v1@main
         with:
           NODE_VERSION: ${{ env.NODE_VERSION }}
