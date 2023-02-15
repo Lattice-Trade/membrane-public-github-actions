@@ -1,0 +1,93 @@
+name: Build & Publish to Registry
+
+on:
+  workflow_call:
+    inputs:
+      HAS_UNIT_TEST:
+        required: false
+        type: boolean
+        default: false
+      NODE_VERSION:
+        required: true
+        type: string
+      USE_PAT:
+        description: For repos that already published using Personal Access tokens, they should input a true. New repos will use $GITHUB_TOKEN.
+        required: false
+        type: boolean
+        default: false
+      IS_RELEASE_CANDIDATE:
+        description: If this a release candidate package, it will be published with an affix in NPM.
+        required: false
+        type: boolean
+        default: false
+      USE_JS:
+        description: If the project uses JS or TS, the publish command changes.
+        required: false
+        type: boolean
+        default: false
+      USE_PROTOC:
+        required: false
+        type: boolean
+        default: false
+      PROTOC_VERSION:
+        description: Protoc version to download from GitHub
+        required: false
+        type: string
+        default: 21.12
+      WORKING_DIR:
+        description: 'Working directory, if the project files is not in the root'
+        required: false
+        type: string
+        default: '.'
+
+permissions:
+  contents: write
+  packages: write
+  repository-projects: write
+
+jobs:
+  install:
+    uses: Lattice-Trade/membrane-github-template-actions/.github/workflows/typescript-install.v1.yml@main
+    with:
+      NODE_VERSION: ${{ inputs.NODE_VERSION }}
+      WORKING_DIR: ${{ inputs.WORKING_DIR }}
+    secrets: inherit
+
+  lint:
+    needs: install
+    if: always() && needs.install.result == 'success'
+    uses: Lattice-Trade/membrane-github-template-actions/.github/workflows/typescript-lint.v1.yml@main
+    with:
+      NODE_VERSION: ${{ inputs.NODE_VERSION }}
+      WORKING_DIR: ${{ inputs.WORKING_DIR }}
+    secrets: inherit
+
+  test:
+    needs: install
+    if: always() && needs.install.result == 'success'
+    uses: Lattice-Trade/membrane-github-template-actions/.github/workflows/typescript-test.v1.yml@main
+    with:
+      NODE_VERSION: ${{ inputs.NODE_VERSION }}
+      HAS_UNIT_TEST: ${{ inputs.HAS_UNIT_TEST }}
+      WORKING_DIR: ${{ inputs.WORKING_DIR }}
+    secrets: inherit
+
+  build:
+    needs: [test, lint]
+    if: |
+      always() &&
+      (needs.lint.result == 'success' && needs.test.result == 'success')
+    uses: Lattice-Trade/membrane-github-template-actions/.github/workflows/typescript-build.v1.yml@main
+    with:
+      NODE_VERSION: ${{ inputs.NODE_VERSION }}
+      NPM_REGISTRY: npm.pkg.github.com
+      NPM_SCOPE: "@${{ github.repository_owner }}"
+      USE_PAT: ${{ inputs.USE_PAT }}
+      IS_RELEASE_CANDIDATE: ${{ inputs.IS_RELEASE_CANDIDATE }}
+      USE_PROTOC: ${{ inputs.USE_PROTOC }}
+      PROTOC_VERSION: ${{ inputs.PROTOC_VERSION }}
+      USE_JS: ${{ inputs.USE_JS }}
+      WORKING_DIR: ${{ inputs.WORKING_DIR }}
+      # @Lattice-Trade should be default when using npm.pkg.github.com
+      # https://github.com/actions/setup-node/blob/v3/action.yml#L20
+    secrets: inherit
