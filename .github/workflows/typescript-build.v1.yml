@@ -102,8 +102,7 @@ jobs:
         run: |
           npm version $(jq -r .version package.json)-rc-$(echo ${GITHUB_SHA} | cut -c1-7) --git-tag-version false
           if [ ${{ inputs.USE_JS }} = 'false' ];then 
-            pwd
-            ls -la
+            ls -la dist
             cp package.json dist/
             cp README.md dist/ || true
             npm publish dist --tag beta
@@ -117,8 +116,7 @@ jobs:
         if: ${{ !inputs.IS_RELEASE_CANDIDATE && inputs.NPM_REGISTRY == 'npm.pkg.github.com' }}
         run: |
           if [ ${{ inputs.USE_JS }} = 'false' ];then 
-            pwd
-            ls -la
+            ls -la dist
             cp package.json dist/
             cp README.md dist/ || true
             npm publish dist
