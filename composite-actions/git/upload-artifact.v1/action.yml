@@ -9,11 +9,12 @@ runs:
   using: "composite"
   steps:
     - name: Zip artifact of dependencies
-      run: tar -czf node_modules.tgz  ${{ inputs.WORKING_DIR }}/node_modules
+      run: tar -czf node_modules.tgz node_modules/
       shell: bash
+      working-directory: ${{ inputs.WORKING_DIR }}
     - name: Upload artifact of dependencies
       uses: actions/upload-artifact@v3
       with:
         name: node_modules.tgz
-        path: node_modules.tgz
+        path: ${{ inputs.WORKING_DIR }}/node_modules.tgz
         retention-days: 2

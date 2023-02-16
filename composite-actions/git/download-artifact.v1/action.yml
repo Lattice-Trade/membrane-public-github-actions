@@ -14,10 +14,6 @@ runs:
         name: node_modules.tgz
         path: ${{ inputs.WORKING_DIR }}
     - name: Unzip artifact of dependencies
-      run: |
-        pwd
-        ls -la
-        tar -xzf node_modules.tgz
-        ls -la
+      run: tar -xzf node_modules.tgz
       shell: bash
       working-directory: ${{ inputs.WORKING_DIR }}
