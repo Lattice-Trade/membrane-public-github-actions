@@ -1,0 +1,14 @@
+name: 'Install protoc'
+description: 'Install protobuf binary from GitHub releases'
+inputs:
+  PROTOC_VERSION:
+    description: "Version of protoc binary to use"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Download protoc
+      run: |
+        sudo apt install -y protobuf-compiler
+        protoc --version
+      shell: bash
