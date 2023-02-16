@@ -79,7 +79,7 @@ jobs:
           commit_message: Package.json version bumped to ${{ steps.read-package-after.outputs.version }}
           commit_options: '--no-verify'
           branch: main
-          file_pattern: 'package*json'
+          file_pattern: '**/package*json'
           commit_user_name: "${{ github.event.pull_request.merged_by.login }}"
       - name: Create changelog
         run: |
