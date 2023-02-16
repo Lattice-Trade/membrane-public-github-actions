@@ -40,5 +40,5 @@ jobs:
         with:
           WORKING_DIR: ${{ inputs.WORKING_DIR }}
       - name: Run lint
-        continue-on-error: false
-        run: echo "lint desactived"
+        continue-on-error: true
+        run: npm run lint
