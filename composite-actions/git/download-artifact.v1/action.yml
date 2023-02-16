@@ -13,16 +13,11 @@ runs:
       with:
         name: node_modules.tgz
         path: ${{ inputs.WORKING_DIR }}
-    - name: Show directory
-      run: |
-        pwd && ls -la
-        ls -la ${{ inputs.WORKING_DIR }} || true
-      shell: bash
     - name: Unzip artifact of dependencies
-      run: cd ${{ inputs.WORKING_DIR }} && tar -xzf node_modules.tgz
-      shell: bash
-    - name: Show directory
       run: |
-        pwd && ls -la
-        ls -la ${{ inputs.WORKING_DIR }} || true
+        pwd
+        ls -la
+        tar -xzf node_modules.tgz
+        ls -la
       shell: bash
+      working-directory: ${{ inputs.WORKING_DIR }}
