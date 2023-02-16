@@ -64,6 +64,8 @@ jobs:
           WORKING_DIR: ${{ inputs.WORKING_DIR }}
       - name: Download and unzip dependencies artifact
         uses: Lattice-Trade/membrane-public-github-actions/composite-actions/git/download-artifact.v1@main
+        with:
+          WORKING_DIR: ${{ inputs.WORKING_DIR }}
       - name: Install protoc
         if: ${{ inputs.USE_PROTOC }}
         uses: Lattice-Trade/membrane-public-github-actions/composite-actions/protoc/install.v1@main
