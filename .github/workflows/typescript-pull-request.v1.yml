@@ -38,7 +38,7 @@ on:
 jobs:
   gitflow-validation:
     if: ${{ inputs.VALIDATE_GITFLOW || ( inputs.GH_BASE_REF != '' && inputs.GH_HEAD_REF != '' ) }}
-    uses: Lattice-Trade/membrane-public-github-actions/.github/workflows/gh-validate-gitflow.v1.yml@main
+    uses: Lattice-Trade/membrane-public-github-actions/.github/workflows/gh-validate-gitflow.v1.yml@fix/github-script-to-v6
 
   install:
     needs: gitflow-validation
